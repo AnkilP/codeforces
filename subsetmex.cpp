@@ -9,12 +9,16 @@
 #include <utility>
 #include <algorithm>
 
+template <typename T>
+void printdebug(const T & dbg){
+    std::cout << dbg << std::endl;
+}
+
 int solution(const int & N, std::vector<int> & nums) {
     std::sort(nums.begin(), nums.end());
     auto min1 = 0;
     auto min2 = 0; 
-    auto pointer1 = 0;
-    auto pointer2 = 1;
+    auto pointer = 0;
     bool mex1 = false;
     bool mex2 = false;
 
@@ -25,34 +29,45 @@ int solution(const int & N, std::vector<int> & nums) {
         return 0;
     }
     else {
-        while((pointer1 <= nums.size() && pointer2 <= nums.size()) || (mex1 == true && mex2 == true)) {
-            if(nums[pointer1] == min1 && mex1 == false){
-                int step = 1;
-                if(mex2 == true) {
-                    pointer1 = pointer1 + step;
+        while(mex1 == false || mex2 == false) {
+            //printdebug<std::string>("Beginning of loop");
+            if(pointer >= nums.size()){
+                //printdebug<std::string>("mex1 stop");
+                mex1 = true;
+            }
+            else if(nums[pointer] <= min1 && mex1 == false){
+                //printdebug<std::string>("lol what");
+                if(nums[pointer++] == min1){
+                    min1++;
                 }
-                pointer1 = pointer1 + step + 1;
-                min1++;
             }
             else {
                 //pointer1 can stop moving
+                //printdebug<std::string>("mex1 check triggered");
                 mex1 = true;
             }
-
-            if(nums[pointer2] == min2 && mex2 == false) {
-                int step = 1;
-                if(mex1 == true) {
-                    pointer2 = pointer2 + step;
-                }
-                pointer2 = pointer2 + step + 1;
-                min2++;
-            }
-            else {
+            //printdebug<int>(min1);
+            if(pointer >= nums.size()){
+                //printdebug<std::string>("mex2 stop");
                 mex2 = true;
             }
+            else if(nums[pointer] <= min2 && mex2 == false) {
+                //printdebug<std::string>("lol what 2");
+                if(nums[pointer++] == min2){
+                    min2++;
+                }
+            }
+            else {
+                //printdebug<std::string>("check triggered");
+                mex2 = true;
+            }
+            //printdebug<int>(min2);
         }
     }
-    return min1 + mn2;
+    //printdebug<std::string>("End of loop");
+    //printdebug<int>(min1);
+    //printdebug<int>(min2);
+    return min1 + min2;
 }
 
 int main(int argc, char * argv[]){
