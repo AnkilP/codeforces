@@ -22,47 +22,39 @@ int solution(const int & N, std::vector<int> & nums) {
     bool mex1 = false;
     bool mex2 = false;
 
-    if(nums.size() == 1) {
-        return 1;
-    }
-    else if(nums.size() == 0) {
-        return 0;
-    }
-    else {
-        while(mex1 == false || mex2 == false) {
-            //printdebug<std::string>("Beginning of loop");
-            if(pointer >= nums.size()){
-                //printdebug<std::string>("mex1 stop");
-                mex1 = true;
-            }
-            else if(nums[pointer] <= min1 && mex1 == false){
-                //printdebug<std::string>("lol what");
-                if(nums[pointer++] == min1){
-                    min1++;
-                }
-            }
-            else {
-                //pointer1 can stop moving
-                //printdebug<std::string>("mex1 check triggered");
-                mex1 = true;
-            }
-            //printdebug<int>(min1);
-            if(pointer >= nums.size()){
-                //printdebug<std::string>("mex2 stop");
-                mex2 = true;
-            }
-            else if(nums[pointer] <= min2 && mex2 == false) {
-                //printdebug<std::string>("lol what 2");
-                if(nums[pointer++] == min2){
-                    min2++;
-                }
-            }
-            else {
-                //printdebug<std::string>("check triggered");
-                mex2 = true;
-            }
-            //printdebug<int>(min2);
+    while(mex1 == false || mex2 == false) {
+        //printdebug<std::string>("Beginning of loop");
+        if(pointer >= nums.size()){
+            //printdebug<std::string>("mex1 stop");
+            mex1 = true;
         }
+        else if(nums[pointer] <= min1 && mex1 == false){
+            //printdebug<std::string>("lol what");
+            if(nums[pointer++] == min1){
+                min1++;
+            }
+        }
+        else {
+            //pointer1 can stop moving
+            //printdebug<std::string>("mex1 check triggered");
+            mex1 = true;
+        }
+        //printdebug<int>(min1);
+        if(pointer >= nums.size()){
+            //printdebug<std::string>("mex2 stop");
+            mex2 = true;
+        }
+        else if(nums[pointer] <= min2 && mex2 == false) {
+            //printdebug<std::string>("lol what 2");
+            if(nums[pointer++] == min2){
+                min2++;
+            }
+        }
+        else {
+            //printdebug<std::string>("check triggered");
+            mex2 = true;
+        }
+        //printdebug<int>(min2);
     }
     //printdebug<std::string>("End of loop");
     //printdebug<int>(min1);
