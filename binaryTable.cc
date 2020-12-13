@@ -11,32 +11,51 @@
 #include <stdlib.h>
 #include <math.h>
 
-long long solution(const std::vector<long long> & barrels, const std::vector<long long> & NK){
-    if(NK[0] == 1){
-        long long sum = 0;
-        for(const auto & c: barrels){
-            sum += c;
+
+void printMatrix(const std::vector<std::vector<short>> & matrix){
+    for(const auto & c: matrix){
+        for(const auto & d: c){
+            std::cout << d << " ";
         }
-        return sum;
+        std::cout << "\n";
     }
-    long long answer = 0;
-    long long n = NK.at(0)/2 + 1;
-    n = std::max(n, static_cast<long long>(2));
-    long long k = NK.at(1);
-    long long iter = 1;
-    long long count = 0;
-    for(long long i = barrels.size() - 1; i >= 0; --i){
-        if(iter < n){
-            iter++;
-            continue;
-        }
-        else{
-            answer += barrels[i];
-            iter = 1;
-            count++;
-            if(count == k){
-                return answer;
+}
+
+void addCoords(int i, int j, std::vector<int> & coords){
+    coords.emplace_back(i);
+    coords.emplace_back(j);
+}
+
+std::vector<std::vector<int>> solution(std::vector<std::vector<short>> & grid){
+    std::vector<std::vector<int>> answer;
+    for(int i = 0; i < grid.size() - 1; ++i){
+        for(int j = 0; j < grid[0].size() - 1; ++j){
+            short count = 3;
+            std::vector<int> coords;
+            if(grid[i][j] == 1 && count){
+                grid[i][j] = 0;
+                addCoords(i+1,j+1,coords);
+                count--;
             }
+            if(grid[i+1][j] == 1 && count){
+                grid[i+1][j] = 0;
+                addCoords(i+2, j+1, coords);
+                count--;
+            }
+            if(grid[i+1][j+1] == 1 && count){
+                grid[i+1][j+1] = 0;
+                addCoords(i+2, j+2, coords);
+                count--;
+            }
+            if(grid[i][j+1] == 1 && count){
+                grid[i][j+1] = 0;
+                addCoords(i+1, j+2, coords);
+                count--;
+            }
+            if(count < 3 && count > 0){
+                
+            }
+            answer.emplace_back(coords);
         }
     }
     return answer;
@@ -59,16 +78,28 @@ int main(){
 
     std::string T;
     std::getline(std::cin,T);
-    long long testcases = stoi(T);
-    for(long long i = 0; i < testcases; ++i){
+    int testcases = stoi(T);
+    for(int i = 0; i < testcases; ++i){
         std::getline(std::cin, NK);
         std::istringstream iss1(NK);
-        std::vector<long long> NM(std::istream_iterator<long long>(iss1), {});
-        std::getline(std::cin, stones);
-        std::istringstream iss2(stones);
-        std::vector<long long> s(std::istream_iterator<long long>(iss2), {});
-        auto sol = solution(s, NM);
-        std::cout << std::to_string(sol) << "\n";
+        std::vector<int> NM(std::istream_iterator<int>(iss1), {});
+        std::vector<std::vector<short>> grid(NM[0]);
+        for(int i = 0; i < NM[0]; ++i){
+            std::getline(std::cin, NK);
+            std::vector<short> x(NM[1], 0);
+            for(int j = 0; j < x.size(); ++j){
+                NK[j] == '1' ? x[j] = 1 : x[j] = 0;
+            }
+            grid[i] = x;
+        }
+        auto sol = solution(grid);
+        std::cout << std::to_string(sol.size()) << "\n";
+        for(const auto & c: sol){
+            for(const auto &d: c){
+                std::cout << d << " ";
+            }
+            std::cout << "\n";
+        }
     }
     // outputFile.close();
     // inputFile.close();

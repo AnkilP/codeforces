@@ -21,4 +21,4 @@ endif()
 project(codeforces)
 
 # add the executable
-add_executable(${PROJECT_NAME} sumOfMedians.cc)
+add_executable(${PROJECT_NAME} adventofcode1.cpp)
